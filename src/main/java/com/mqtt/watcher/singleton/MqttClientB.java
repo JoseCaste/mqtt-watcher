@@ -1,6 +1,7 @@
 package com.mqtt.watcher.singleton;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -22,11 +23,13 @@ public class MqttClientB {
 	private static MqttClient sampleClient;
 	private static MqttConnectOptions connOpts = new MqttConnectOptions();
 	
-	private static Properties properties;
-	static {
+	private Properties properties;
+
+
+	public MqttClientB() {
 		properties = new Properties();
 		try {
-			properties.load(MqttClientB.class.getClassLoader().getResourceAsStream("application.properties"));
+			properties.load(getClass().getClassLoader().getResourceAsStream("application.properties"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,16 +47,11 @@ public class MqttClientB {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-	}
-
-	public MqttClientB() {
-
 	}
 
 	public static MqttClientB getMqttConection() {
 		if(Objects.isNull(mqttClient)) {
-			return new MqttClientB();
+			mqttClient = new MqttClientB();
 		}
 		
 		return mqttClient;
